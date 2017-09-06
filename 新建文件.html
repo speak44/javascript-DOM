@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			#box{
+				width: 660px;
+				height: 415px;
+				padding: 20px 20px 63px 20px;
+				background: url(img/bg.png);
+				margin: 0 auto;
+			}
+			.cont{
+				width: 660px;
+				height: 355px;
+			}
+			.btnz{
+				width: 123px;
+				height: 80px;
+				margin-left: 275px;
+			}
+			a{
+				text-decoration: none;
+				color: #fff;
+				display: block;
+				height: 31px;
+				width: 116px;
+				border: 2px solid #fff;
+				border-radius: 4px;
+				text-align: center;
+				line-height: 31px;
+				font-size: 16px;
+			}
+			a:nth-of-type(1){
+				margin-bottom: 10px;
+			}
+			a:nth-of-type(2){
+				background: #cf9aa4;
+			}
+			.new{
+				width: 84px;
+				height: 83px;
+				padding: 20px 14px 16px 19px;
+				/*border: 1px solid #fff;*/
+				border-radius: 6px;
+				color: #fff;
+				position: relative;
+				float: left;
+				margin-left: 5px;
+			}
+			.cont i{
+				display: block;
+				width: 12px;
+				height: 12px;
+				background: #fff;
+				position: absolute;
+				top: 7px;
+				left: 8px;
+				z-index: 1;
+			}
+			.ne-con{
+				width: 84px;
+				height: 83px;
+				position: absolute;
+				left: 21;
+				top: 20;
+				z-index: 1;
+			}
+			.mask{
+				background: #644d67;
+				opacity: .7;
+				width: 117px;
+				height: 119px;
+				border-radius: 6px;
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="box">
+			<div class="cont">
+				<!--<div class="new">
+					<i></i>
+					<div class="ne-con">
+						<img src="img/new.png"/>
+						<span>新建文件夹</span>
+					</div>
+					<div class="mask"></div>
+				</div>-->
+			</div>
+			<div class="btnz">
+				<a href="javascript:;">新建文件夹</a>
+				<a href="javascript:;">删除文件夹</a>
+			</div>
+		</div>
+		<script type="text/javascript">
+			//新建按钮
+			let newo=document.querySelector('.btnz').querySelectorAll('a')[0];
+			//删除按钮
+			let dele=document.querySelector('.btnz').querySelectorAll('a')[1];
+			//内容盒子
+			let cont=document.querySelector('.cont');
+			//新建文件夹编号
+			let n=0;
+			//存放删除数据数组
+			let delearr=[];
+			//新建按钮点击事件
+			newo.onclick=function(){
+				n++
+				//创建元素
+				let chunj=document.createElement('div')
+				chunj.className='new'
+				let ne_con=document.createElement('div')
+				chunj.appendChild(ne_con)
+				    ne_con.className='ne-con';
+				    ne_con.innerHTML=`
+						<img src="img/new.png"/>
+						<span>新建文件${n}</span>`
+				//插入
+				cont.appendChild(chunj)
+          		let newwen = document.querySelectorAll('.new');
+				for (let i=0,len=newwen.length;i<len;i++) {
+					newwen[i].onoff=true;
+	          		//创建元素遮罩层
+	          		let mask=document.createElement('div');
+	          		//选中框
+					let is=document.createElement('i');
+					newwen[i].onclick=function(){
+						if (this.onoff) {
+							is.style.opacity=1;
+							is.style.background='#45A4FE';
+							mask.className='mask';
+							delearr.push(this)
+							this.onoff=false;
+						}else{
+							is.style.background='';
+							is.style.opacity=0;
+							mask.className='';
+							for (let i=0;i<delearr.length;i++) {
+								if(this==delearr[i]){
+									delearr.splice(i,1)
+								}
+							}
+							this.onoff=true;
+						}
+						this.appendChild(is);
+						this.appendChild(mask);
+					}
+				}
+			}
+			dele.onclick=function(){
+				for (let i=0,len=delearr.length;i<len;i++) {
+					cont.removeChild(delearr[i])
+				}
+				delearr=[]
+			}
+		</script>
+	</body>
+</html>
